@@ -23,14 +23,14 @@ const NavBarMenu = (props) => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-        <NavbarBrand href="/">reactstrap</NavbarBrand>
+        <NavbarBrand href="/">Reactstrap</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-              <NavLink href="/">Home</NavLink>
+              <NavLink href="/">Home Page</NavLink>
             </NavItem>
-            <NavItem>
+            {/* <NavItem>
               <NavLink href="/products">Product</NavLink>
             </NavItem>
             <NavItem>
@@ -39,7 +39,7 @@ const NavBarMenu = (props) => {
                   <NavLink href="/carts">Cart ({cartItems.length})</NavLink>
                 )}
               </CartContext.Consumer>
-            </NavItem>
+            </NavItem> */}
           </Nav>
           <NavbarText>{props.userName}</NavbarText>
         </Collapse>

@@ -6,7 +6,6 @@ import shortid from "shortid";
 import "./style.css";
 import { connect } from "react-redux";
 import { ACTION_TYPE } from "../actions";
-import { store } from "..";
 
 // import { useEffect, useState } from "react";
 
@@ -55,11 +54,11 @@ let Home = ({ loading, results, error, getClassi, onAddURL, onDeleteURL }) => {
   );
 };
 
-const mapDispatchToProps = {
-  getClassi: () => store.dispatch({ type: ACTION_TYPE.GET_CLASSI }),
-  onAddURL: () => store.dispatch({ type: ACTION_TYPE.ON_ADD_URL }),
-  onDeleteURL: () => store.dispatch({ type: ACTION_TYPE.ON_DELETE_URL }),
-};
+const mapDispatchToProps = (dispatch) => ({
+  getClassi: () => dispatch({ type: ACTION_TYPE.GET_CLASSI }),
+  onAddURL: () => dispatch({ type: ACTION_TYPE.ON_ADD_URL }),
+  onDeleteURL: () => dispatch({ type: ACTION_TYPE.ON_DELETE_URL }),
+});
 
 const mapStateToProps = (state) => ({
   loading: state.loading,

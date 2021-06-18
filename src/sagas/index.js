@@ -1,7 +1,7 @@
 import { put, takeLatest, all, select } from "redux-saga/effects";
 import { ACTION_TYPE } from "../actions";
 import { API_URL } from "./api";
-import { formaterData, handleError, isValidHttpUrl } from "./helper";
+import { formatterData, handleError, isValidHttpUrl } from "./helper";
 
 const getItems = (state) => state.results.map((n) => n.url).filter((n) => n);
 
@@ -25,7 +25,7 @@ function* fetchNews() {
       .then((response) => response.json())
       .then((data) => ({
         type: ACTION_TYPE.CLASSI_RECEIVED,
-        json: formaterData(data, stateURL),
+        json: formatterData(data, stateURL),
       }))
       .catch((err) => ({
         type: ACTION_TYPE.ERROR_MESSAGE,
@@ -33,7 +33,6 @@ function* fetchNews() {
       }));
 
     yield put(storeAction);
-    console.log(storeAction);
   }
 }
 

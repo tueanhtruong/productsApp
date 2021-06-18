@@ -5,6 +5,7 @@ const INITIAL_STATE = {
   results: [{ url: "", return: [] }],
   error: "",
 };
+const INITIAL_RESULT = { url: "", return: [] };
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
@@ -13,13 +14,7 @@ const reducer = (state = INITIAL_STATE, action) => {
     case ACTION_TYPE.ON_ADD_URL:
       return {
         ...state,
-        results: [
-          ...state.results,
-          {
-            url: "",
-            return: [],
-          },
-        ],
+        results: [...state.results, INITIAL_RESULT],
       };
     case ACTION_TYPE.ON_DELETE_URL:
       return {

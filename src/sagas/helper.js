@@ -1,4 +1,4 @@
-export const formaterData = (data, URLs) => {
+export const formatterData = (data, URLs) => {
   const newReturn = data?.result?.map((n) => {
     const m = n.split(/\s+/);
     return m.map((n) => {

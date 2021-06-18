@@ -1,13 +1,8 @@
-export const getClassi = () => ({
-  type: "GET_CLASSI",
-});
-export const onAddURL = () => ({
-  type: "ON_ADD_URL",
-});
-export const onDeleteURL = () => ({
-  type: "ON_DELETE_URL",
-});
-
-export const onDeleteError = () => ({
-  type: "ON_DELETE_ERROR",
-});
+export const ACTION_TYPE = {
+  GET_CLASSI: "GET_CLASSI",
+  ON_ADD_URL: "ON_ADD_URL",
+  ON_DELETE_URL: "ON_DELETE_URL",
+  ON_DELETE_ERROR: "ON_DELETE_ERROR",
+  ERROR_MESSAGE: "ERROR_MESSAGE",
+  CLASSI_RECEIVED: "CLASSI_RECEIVED",
+};

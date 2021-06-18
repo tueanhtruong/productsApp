@@ -1,40 +1,15 @@
 import { put, takeLatest, all, select } from "redux-saga/effects";
-const formaterData = (data, URLs) => {
-  const newReturn = data?.result?.map((n) => {
-    const m = n.split(/\s+/);
-    return m.map((n) => {
-      const tempt = n.split("_");
-      return { kind: tempt[0], percent: tempt[1] };
-    });
-  });
-  return URLs.map((url, index) => {
-    return {
-      url: url,
-      return: newReturn[index],
-    };
-  });
-};
+import { ACTION_TYPE } from "../actions";
+import { API_URL } from "./api";
+import { formaterData, handleError, isValidHttpUrl } from "./helper";
 
 const getItems = (state) => state.results.map((n) => n.url).filter((n) => n);
 
-const isValidHttpUrl = (string) => {
-  let url;
-
-  try {
-    url = new URL(string);
-  } catch (_) {
-    return false;
-  }
-
-  return url.protocol === "http:" || url.protocol === "https:";
-};
-
 function* fetchNews() {
   const stateURL = yield select(getItems);
-  console.log(!stateURL.length);
   if (!stateURL.length || stateURL.find((n) => !isValidHttpUrl(n))) {
     yield put({
-      type: "ERROR_MESSAGE",
+      type: ACTION_TYPE.ERROR_MESSAGE,
       error: "Invalid URL",
     });
   } else {
@@ -45,19 +20,20 @@ function* fetchNews() {
         url: stateURL,
       }),
     };
-    const newRes = yield fetch(
-      "http://localhost:8080/messages/",
-      requestOptions
-    )
+    const storeAction = yield fetch(`${API_URL}/messages/`, requestOptions)
+      .then(handleError)
       .then((response) => response.json())
-      .then((data) => {
-        return formaterData(data, stateURL);
-      });
+      .then((data) => ({
+        type: ACTION_TYPE.CLASSI_RECEIVED,
+        json: formaterData(data, stateURL),
+      }))
+      .catch((err) => ({
+        type: ACTION_TYPE.ERROR_MESSAGE,
+        error: err.message,
+      }));
 
-    yield put({
-      type: "CLASSI_RECEIVED",
-      json: newRes,
-    });
+    yield put(storeAction);
+    console.log(storeAction);
   }
 }
 

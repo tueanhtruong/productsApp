@@ -1,11 +1,16 @@
-const reducer = (
-  state = { loading: false, results: [{ url: "", return: [] }], error: "" },
-  action
-) => {
+import { ACTION_TYPE } from "../actions";
+
+const INITIAL_STATE = {
+  loading: false,
+  results: [{ url: "", return: [] }],
+  error: "",
+};
+
+const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case "GET_CLASSI":
+    case ACTION_TYPE.GET_CLASSI:
       return { ...state, loading: true };
-    case "ON_ADD_URL":
+    case ACTION_TYPE.ON_ADD_URL:
       return {
         ...state,
         results: [
@@ -16,7 +21,7 @@ const reducer = (
           },
         ],
       };
-    case "ON_DELETE_URL":
+    case ACTION_TYPE.ON_DELETE_URL:
       return {
         ...state,
         results:
@@ -24,11 +29,11 @@ const reducer = (
             ? [...state.results.slice(0, state.results.length - 1)]
             : [...state.results],
       };
-    case "CLASSI_RECEIVED":
+    case ACTION_TYPE.CLASSI_RECEIVED:
       return { ...state, results: [...action.json], loading: false };
-    case "ERROR_MESSAGE":
+    case ACTION_TYPE.ERROR_MESSAGE:
       return { ...state, error: action.error, loading: false };
-    case "ON_DELETE_ERROR":
+    case ACTION_TYPE.ON_DELETE_ERROR:
       return { ...state, error: "" };
     default:
       return state;

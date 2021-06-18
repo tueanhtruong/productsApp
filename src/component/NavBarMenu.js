@@ -9,7 +9,6 @@ import {
   NavLink,
   NavbarText,
 } from "reactstrap";
-import { CartContext } from "../contexts/Cart";
 
 const NavBarMenu = (props) => {
   const [isOpen, setIsOpen] = useState(false);

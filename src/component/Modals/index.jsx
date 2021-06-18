@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { onDeleteError } from "../../actions";
 import { connect } from "react-redux";
+import { store } from "../../index";
+import { ACTION_TYPE } from "../../actions";
 
 let Modals = ({ className, error, onDeleteError }) => {
   const [modal, setModal] = useState(false);
@@ -32,7 +33,7 @@ let Modals = ({ className, error, onDeleteError }) => {
 };
 
 const mapDispatchToProps = {
-  onDeleteError: onDeleteError,
+  onDeleteError: () => store.dispatch({ type: ACTION_TYPE.ON_DELETE_ERROR }),
 };
 
 const mapStateToProps = (state) => ({

@@ -5,7 +5,8 @@ import Modals from "../component/Modals";
 import shortid from "shortid";
 import "./style.css";
 import { connect } from "react-redux";
-import { getClassi, onAddURL, onDeleteURL } from "../actions";
+import { ACTION_TYPE } from "../actions";
+import { store } from "..";
 
 // import { useEffect, useState } from "react";
 
@@ -17,8 +18,17 @@ let Home = ({ loading, results, error, getClassi, onAddURL, onDeleteURL }) => {
   return (
     <Container>
       <h1>Text Classification </h1>
-      <div onClick={handleAddURL} className="add-more-url">
-        <Button color="primary">More URL</Button>
+      <div className="add-more-url">
+        <Button color="primary" onClick={handleAddURL} className="button-tini">
+          More URL
+        </Button>
+        <Button
+          color="danger"
+          onClick={handleDeleteURL}
+          className="button-tini"
+        >
+          Delete URL
+        </Button>
       </div>
       {results.map((n) => (
         <UrlForm
@@ -30,9 +40,6 @@ let Home = ({ loading, results, error, getClassi, onAddURL, onDeleteURL }) => {
           }}
         />
       ))}
-      <div onClick={handleDeleteURL} className="delete-more-url">
-        <Button color="danger">Delete URL</Button>
-      </div>
       <div className="main-button-container">
         <Button
           onClick={handleSubmitURL}
@@ -49,9 +56,9 @@ let Home = ({ loading, results, error, getClassi, onAddURL, onDeleteURL }) => {
 };
 
 const mapDispatchToProps = {
-  getClassi: getClassi,
-  onAddURL: onAddURL,
-  onDeleteURL: onDeleteURL,
+  getClassi: () => store.dispatch({ type: ACTION_TYPE.GET_CLASSI }),
+  onAddURL: () => store.dispatch({ type: ACTION_TYPE.ON_ADD_URL }),
+  onDeleteURL: () => store.dispatch({ type: ACTION_TYPE.ON_DELETE_URL }),
 };
 
 const mapStateToProps = (state) => ({

@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Form, FormGroup, Label, Input, Table } from "reactstrap";
 import shortid from "shortid";
 import "./style.css";
 
-const UrlForm = ({ label, data, handleChangeValue }) => {
-  const [url, setUrl] = useState("");
-  useEffect(() => {
-    setUrl(data.url);
-  }, [data]);
+const UrlForm = ({ label, data, resultData, handleChangeValue }) => {
   const handleChangeValueDown = (event) => {
-    setUrl(event.target.value);
     handleChangeValue(event.target.value);
   };
   return (
@@ -18,13 +13,13 @@ const UrlForm = ({ label, data, handleChangeValue }) => {
         <Label for="exampleEmail">{label}</Label>
         <Input
           type="URL"
-          value={url}
+          value={data}
           onChange={handleChangeValueDown}
           id="exampleEmail"
           placeholder="Input URL here"
         />
       </FormGroup>
-      {data?.return.length ? (
+      {resultData && (
         <Table size="md" bordered>
           <thead>
             <tr>
@@ -34,18 +29,18 @@ const UrlForm = ({ label, data, handleChangeValue }) => {
             </tr>
           </thead>
           <tbody>
-            {data.return.map((n, index) => {
+            {resultData.map((n, index) => {
               return (
                 <tr key={shortid.generate()}>
                   <td>{index + 1}</td>
                   <td>{n.kind}</td>
-                  <td>{n.percent + " %"}</td>
+                  <td>{`${n.percent} %`}</td>
                 </tr>
               );
             })}
           </tbody>
         </Table>
-      ) : null}
+      )}
     </Form>
   );
 };

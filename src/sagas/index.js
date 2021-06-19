@@ -1,45 +1,37 @@
-import { put, takeLatest, all, select } from "redux-saga/effects";
-import { ACTION_TYPE } from "../actions";
-import { API_URL } from "./api";
-import { formatterData, handleError, isValidHttpUrl } from "./helper";
+import { takeLatest, all, call, fork } from "redux-saga/effects";
+import { store } from "..";
+import { ACTION_TYPE, setLoading } from "../actions";
 
-const getItems = (state) => state.results.map((n) => n.url).filter((n) => n);
+import * as APIS from "./api";
 
-function* fetchNews() {
-  const stateURL = yield select(getItems);
-  if (!stateURL.length || stateURL.find((n) => !isValidHttpUrl(n))) {
-    yield put({
-      type: ACTION_TYPE.ERROR_MESSAGE,
-      error: "Invalid URL",
-    });
-  } else {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        url: stateURL,
-      }),
-    };
-    const storeAction = yield fetch(`${API_URL}/messages/`, requestOptions)
-      .then(handleError)
-      .then((response) => response.json())
-      .then((data) => ({
-        type: ACTION_TYPE.CLASSI_RECEIVED,
-        json: formatterData(data, stateURL),
-      }))
-      .catch((err) => ({
-        type: ACTION_TYPE.ERROR_MESSAGE,
-        error: err.message,
-      }));
-
-    yield put(storeAction);
+function handler(action, response, error, successCallback, errorCallback) {
+  if (response) {
+    if (
+      (response.status === 200 || response.status === 204) &&
+      successCallback
+    ) {
+      successCallback(response.data);
+    }
+  } else if (errorCallback && error) {
+    errorCallback(error);
   }
 }
 
-function* actionWatcher() {
-  yield takeLatest("GET_CLASSI", fetchNews);
+function* getClassification(action) {
+  store.dispatch(setLoading(true));
+
+  const { response, error } = yield call(
+    APIS.getClassification,
+    action.payload
+  );
+  handler(action, response, error, action.onSuccess, action.onError);
+  store.dispatch(setLoading(false));
+}
+
+function* getClassificationWatcher() {
+  yield takeLatest(ACTION_TYPE.GET_CLASSIFICATION, getClassification);
 }
 
 export default function* rootSaga() {
-  yield all([actionWatcher()]);
+  yield all([fork(getClassificationWatcher)]);
 }

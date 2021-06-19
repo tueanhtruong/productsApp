@@ -9,13 +9,13 @@ const INITIAL_RESULT = { url: "", return: [] };
 
 const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ACTION_TYPE.GET_CLASSI:
-      return { ...state, loading: true };
     case ACTION_TYPE.ON_ADD_URL:
       return {
         ...state,
         results: [...state.results, INITIAL_RESULT],
       };
+    case ACTION_TYPE.SET_LOADING:
+      return { ...state, loading: action.payload };
     case ACTION_TYPE.ON_DELETE_URL:
       return {
         ...state,
@@ -25,9 +25,9 @@ const reducer = (state = INITIAL_STATE, action) => {
             : [...state.results],
       };
     case ACTION_TYPE.CLASSI_RECEIVED:
-      return { ...state, results: [...action.json], loading: false };
+      return { ...state, results: [...action.json] };
     case ACTION_TYPE.ERROR_MESSAGE:
-      return { ...state, error: action.error, loading: false };
+      return { ...state, error: action.error };
     case ACTION_TYPE.ON_DELETE_ERROR:
       return { ...state, error: "" };
     default:

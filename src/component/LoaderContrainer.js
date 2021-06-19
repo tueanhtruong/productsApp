@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { connect } from "react-redux";
 import LoaderPage from "./loader/loaderPage";
 
-const LoaderContainer = () => {
-  const [loader, setLoader] = useState(true);
-  return [
-    loader && <LoaderPage />,
-    () => setLoader(true),
-    () => setLoader(false),
-  ];
+const Loader = ({ loading }) => {
+  return loading && <LoaderPage />;
 };
+
+const mapStateToProps = (state) => ({
+  loading: state.loading,
+});
+
+const LoaderContainer = connect(mapStateToProps, null)(Loader);
 
 export default LoaderContainer;

@@ -1,4 +1,4 @@
-export const formatterData = (data, URLs) => {
+export const formatterData = (data) => {
   const newReturn = data?.result?.map((n) => {
     const m = n.split(/\s+/);
     return m.map((n) => {
@@ -6,12 +6,8 @@ export const formatterData = (data, URLs) => {
       return { kind: tempt[0], percent: tempt[1] };
     });
   });
-  return URLs.map((url, index) => {
-    return {
-      url: url,
-      return: newReturn[index],
-    };
-  });
+
+  return newReturn[0];
 };
 
 export const isValidHttpUrl = (string) => {
@@ -24,11 +20,4 @@ export const isValidHttpUrl = (string) => {
   }
 
   return url.protocol === "http:" || url.protocol === "https:";
-};
-
-export const handleError = (response) => {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-  return response;
 };

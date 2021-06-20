@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import LoaderContainer from "./component/LoaderContrainer";
 import Modals from "./component/Modals";
 
-function App() {
+const App = () => {
   return (
     <Router>
       <div className="App">
@@ -17,6 +17,6 @@ function App() {
       </div>
     </Router>
   );
-}
+};
 
 export default App;
